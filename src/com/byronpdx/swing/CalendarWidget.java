@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
@@ -21,7 +23,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 /**
- * Calendar widget
+ * Calendar widget Configured so key F1 brings up a popup for entering the date.
  * 
  * @author byron
  * 
@@ -100,25 +102,42 @@ public class CalendarWidget extends JTextField {
 			@Override
 			public void focusGained(FocusEvent e) {
 				textField.grabFocus();
+				textField.selectAll();
 				System.out.println("Calendar widget focus gained");
 			}
 		});
-		// this.addKeyListener(new KeyAdapter() {
-		// @Override
-		// public void keyPressed(KeyEvent e) {
-		// textField.grabFocus();
-		// super.keyPressed(e);
-		// }
-		// });
+
+		this.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("actionPerformed" + e);
+			}
+		});
+
 	}
 
 	/**
-	 * Setup the formatters
+	 * Creates a CalendarWidget with the format strings specified.
+	 * 
+	 * @param fmtStrings
+	 */
+	public CalendarWidget(String[] fmtStrings) {
+		this();
+		this.fmtStrings = fmtStrings;
+		setupFormatters(fmtStrings);
+	}
+
+	/**
+	 * Setup the formatters. The format strings should be assigned from the
+	 * shortest format to the longest so that if it matches the short form the
+	 * parsing can be stopped.
 	 * 
 	 * @param fmtStrings
 	 */
 	private void setupFormatters(String[] fmtStrings) {
 		DateMidnight dt = new DateMidnight();
+		formatters.clear();
 		for (String fmt : fmtStrings) {
 			DateTimeFormatter dtf = DateTimeFormat.forPattern(fmt)
 					.withDefaultYear(dt.getYear());

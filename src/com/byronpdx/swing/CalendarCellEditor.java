@@ -33,6 +33,8 @@ public class CalendarCellEditor extends AbstractCellEditor implements
 	@Override
 	public boolean isCellEditable(EventObject e) {
 		widget.grabFocus();
+		widget.selectAll();
+		System.out.println("Cell editor grab focus");
 		return true;
 	}
 	/*

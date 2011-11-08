@@ -26,7 +26,6 @@ public class CalendarCellRenderer extends DefaultTableCellRenderer {
 
 	@Override
 	protected void setValue(Object value) {
-		System.out.println("setValue " + value);
 		setText((value == null) ? "" : formatter.print((DateMidnight) value));
 	}
 
