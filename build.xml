@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     Jan 11, 2012 10:39:47 PM                                                        
+
+     calendar widget    
+     Builds the calendar widget library
+                   
+     byron                                                                
+     ====================================================================== -->
+<project name="calendar widget" default="default">
+	<description>
+            Builds the calendar widget library
+    </description>
+
+	<!-- ================================= 
+          target: default              
+         ================================= -->
+	<target name="default" depends="depends" description="Builds the calendar widget library">
+		<mkdir dir="target" />
+		<jar destfile="target/calwidget.jar" basedir="bin">
+		</jar>
+		<jar destfile="target/calwidgetsource.jar" basedir="src" />
+		<javadoc destdir="docs">
+			<fileset dir="src" id="id">
+			</fileset>
+			<classpath>
+				<filelist>
+					<file name="lib/joda-time-2.0.jar" />
+				</filelist>
+			</classpath>
+		</javadoc>
+		<zip destfile="target/calwidgetdocs.zip" basedir="docs">
+			<fileset dir="docs" id="id">
+			</fileset>
+		</zip>
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: depends                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="depends">
+		<tstamp />
+	</target>
+
+</project>
