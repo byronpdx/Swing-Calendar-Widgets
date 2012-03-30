@@ -1,5 +1,6 @@
 package com.byronpdx.swing;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -31,7 +32,6 @@ public class CalendarTestFrame extends JFrame {
 	private JTextField txtCalefld;
 	private JScrollPane scrollPane;
 	private JTable table;
-	private TestTableModel model;
 
 	/**
 	 * Launch the application.
@@ -61,21 +61,23 @@ public class CalendarTestFrame extends JFrame {
 				.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0};
-		gbl_contentPane.rowHeights = new int[] { 27, 0, 157, 0, 0, 0 };
-		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWidths = new int[] { 0, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 43, 0, 157, 0, 0, 0 };
+		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0,
+				Double.MIN_VALUE };
 		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0,
 				Double.MIN_VALUE };
 		contentPane.setLayout(gbl_contentPane);
-		
+
 		JLabel lblDate = new JLabel("Date");
 		GridBagConstraints gbc_lblDate = new GridBagConstraints();
 		gbc_lblDate.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDate.gridx = 0;
 		gbc_lblDate.gridy = 0;
 		contentPane.add(lblDate, gbc_lblDate);
-		
+
 		calendarWidget = new CalendarWidget();
+		calendarWidget.setPreferredSize(new Dimension(140, 24));
 		GridBagConstraints gbc_calendarWidget = new GridBagConstraints();
 		gbc_calendarWidget.insets = new Insets(0, 0, 5, 0);
 		gbc_calendarWidget.anchor = GridBagConstraints.NORTHWEST;
@@ -88,17 +90,19 @@ public class CalendarTestFrame extends JFrame {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						System.out.println("Date set");
-						txtDate.setText(calendarWidget.getDate() == null ? "error"
+						txtDate.setText(calendarWidget.getDate() == null ? "null"
 								: calendarWidget.getDate().toString());
 						calendarDiag.setDate(calendarWidget.getDate());
 					}
 				});
-		
+
 		JButton btnShow = new JButton("Show");
 		btnShow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println(calendarWidget.getDate());
-				txtDate.setText(calendarWidget.getDate().toString("MM/dd/yyyy"));
+				txtDate.setText(calendarWidget.getDate() == null ? "Null"
+						: calendarWidget.getDate().toString(
+							"MM/dd/yyyy"));
 			}
 		});
 		GridBagConstraints gbc_btnShow = new GridBagConstraints();
@@ -106,7 +110,7 @@ public class CalendarTestFrame extends JFrame {
 		gbc_btnShow.gridx = 0;
 		gbc_btnShow.gridy = 1;
 		contentPane.add(btnShow, gbc_btnShow);
-		
+
 		txtDate = new JTextField();
 		GridBagConstraints gbc_txtDate = new GridBagConstraints();
 		gbc_txtDate.insets = new Insets(0, 0, 5, 0);
@@ -149,7 +153,8 @@ public class CalendarTestFrame extends JFrame {
 		gbc_scrollPane.gridy = 4;
 		contentPane.add(scrollPane, gbc_scrollPane);
 		table = new JTable();
-		model = new TestTableModel(table);
+		table.setRowHeight(18);
+		new TestTableModel(table);
 		scrollPane.setViewportView(table);
 	}
 

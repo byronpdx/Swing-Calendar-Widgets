@@ -22,7 +22,8 @@ public class TestTableModel extends AbstractTableModel {
 		TableColumnModel colModel = table.getColumnModel();
 		TableColumn col = colModel.getColumn(1);
 		col.setCellRenderer(new CalendarCellRenderer("MM/dd/yyyy"));
-		col.setCellEditor(new CalendarCellEditor());
+		CalendarCellEditor editor = new CalendarCellEditor();
+		col.setCellEditor(editor);
 	}
 
 	@Override

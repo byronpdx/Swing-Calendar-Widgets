@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -18,26 +20,36 @@ public class CalendarPopup extends JDialog {
 	private final CalendarPanel calendarPanel = new CalendarPanel();
 	private DateMidnight date;
 	protected boolean valid;
+	private JButton okButton;
 
 	/**
 	 * Create the dialog.
 	 */
 	public CalendarPopup() {
+		setModal(true);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setTitle("Select Date");
-		setBounds(100, 100, 284, 209);
+		setBounds(100, 100, 288, 236);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		contentPanel.add(calendarPanel);
+		calendarPanel.addPropertyChangeListener("date",
+				new PropertyChangeListener() {
+
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						okButton.doClick();
+					}
+				});
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						valid = true;

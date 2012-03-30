@@ -4,8 +4,6 @@
 package com.byronpdx.swing;
 
 import java.awt.Component;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.EventObject;
 
 import javax.swing.AbstractCellEditor;
@@ -19,24 +17,25 @@ import org.joda.time.DateMidnight;
  * 
  */
 public class CalendarCellEditor extends AbstractCellEditor implements
-		TableCellEditor, PropertyChangeListener {
+		TableCellEditor {
 
 	private static final long serialVersionUID = -4011447494671904444L;
 	private CalendarWidget widget;
-	private DateMidnight date;
 
+	/**
+	 * 
+	 */
 	public CalendarCellEditor() {
 		widget = new CalendarWidget();
-		widget.addPropertyChangeListener("date", this);
 	}
 
 	@Override
 	public boolean isCellEditable(EventObject e) {
 		widget.grabFocus();
 		widget.selectAll();
-		System.out.println("Cell editor grab focus");
 		return true;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -44,22 +43,16 @@ public class CalendarCellEditor extends AbstractCellEditor implements
 	 */
 	@Override
 	public Object getCellEditorValue() {
-		System.out.println("getCellEditorValue " + date);
-		return date;
+		System.out.println("getCellEditorValue " + widget.getDate());
+		return widget.getDate();
 	}
 
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value,
 			boolean isSelected, int row, int col) {
-		date = (DateMidnight) value;
+		DateMidnight date = (DateMidnight) value;
 		widget.setDate(date);
 		return widget;
-	}
-
-	@Override
-	public void propertyChange(PropertyChangeEvent arg0) {
-		date = widget.getDate();
-		System.out.println("Date set " + date);
 	}
 
 }

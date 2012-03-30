@@ -98,6 +98,9 @@ public class CalendarPanel extends JPanel {
 		panControl.add(button_1);
 
 		table = new JTable();
+		table.setFillsViewportHeight(true);
+		table.setToolTipText("Select a date");
+		table.setRowSelectionAllowed(false);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -105,10 +108,11 @@ public class CalendarPanel extends JPanel {
 				int row = table.getSelectedRow();
 				DateMidnight dt = (DateMidnight) model.getDateAt(row, col);
 				firePropertyChange("date", date, date = dt);
+				model.setDate(date);
+				model.fireTableDataChanged();
 			}
 		});
 		model = new CalendarTableModel(table);
-
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane
@@ -128,13 +132,14 @@ public class CalendarPanel extends JPanel {
 
 	public void setDate(DateMidnight date) {
 		if (date != null) {
-		this.date = date;
+			this.date = date;
 		} else {
 			this.date = new DateMidnight();
 		}
 		model.setDate(this.date);
 		spinYear.setValue(this.date.getYear());
 		cmbMonth.setSelectedIndex(this.date.getMonthOfYear() - 1);
+		table.repaint();
 	}
 
 }

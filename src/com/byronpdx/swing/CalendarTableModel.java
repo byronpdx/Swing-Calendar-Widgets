@@ -67,6 +67,12 @@ public class CalendarTableModel extends AbstractTableModel {
 					} else {
 						cell.setForeground(Color.GRAY);
 					}
+					if (getDateAt(row, column).equals(date)) {
+						cell.setBackground(Color.lightGray);
+						System.out.println("blue " + row + "," + column);
+					} else {
+						cell.setBackground(table.getBackground());
+					}
 					return cell;
 				}
 				
@@ -92,7 +98,7 @@ public class CalendarTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int arg0, int arg1) {
-		return days[arg0][arg1].getDayOfMonth();
+		return Integer.toString(days[arg0][arg1].getDayOfMonth());
 	}
 
 	public int getMonth() {

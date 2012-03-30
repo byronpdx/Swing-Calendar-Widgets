@@ -33,8 +33,9 @@ public class Person {
 	}
 
 	public void setDob(DateMidnight dob) {
-		System.out.println(this.dob.toString("MM/dd/yyyy") + "->"
-				+ dob.toString("MM/dd/yyyy"));
+		System.out.println(this.dob != null ? this.dob.toString("MM/dd/yyyy")
+				: "null" + "->" + dob != null ? dob.toString("MM/dd/yyyy")
+						: "null");
 		this.dob = dob;
 	}
 
