@@ -33,6 +33,7 @@
 			<fileset dir="docs" id="id">
 			</fileset>
 		</zip>
+		<zip destfile="target/calwidgetexample.zip" basedir="test" />
 	</target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
