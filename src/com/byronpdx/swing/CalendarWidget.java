@@ -1,5 +1,7 @@
-/**
- * 
+/*
+ * Copyright (c) 2009-2013 TriMet
+ *  
+ * Last modified on Jan 2, 2013 by palmerb
  */
 package com.byronpdx.swing;
 
@@ -11,12 +13,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -25,6 +24,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import org.joda.time.DateMidnight;
 import org.joda.time.format.DateTimeFormat;
@@ -75,29 +76,28 @@ public class CalendarWidget extends JPanel {
 		// add(textField);
 		textField.setColumns(10);
 
-		textField.addKeyListener(new KeyAdapter() {
+		textField.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
-			public void keyReleased(KeyEvent e) {
-				super.keyReleased(e);
-				System.out.println(textField.getText() + "-" + e.getKeyChar()
-						+ " " + e.getKeyCode());
-				if (e.getKeyCode() == 112) {
-					popupCalendar();
-				}
+			public void changedUpdate(DocumentEvent e) {
+				makeChange();
 			}
 
 			@Override
-			public void keyTyped(KeyEvent e) {
-				System.out.println("keyCode=" + e.getKeyCode());
-				super.keyTyped(e);
+			public void insertUpdate(DocumentEvent e) {
+				makeChange();
 			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				makeChange();
+			}
+			
 		});
 
 		textField.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				System.out.println("Focus gained");
 				super.focusGained(e);
 				textField.selectAll();
 			}
@@ -129,40 +129,29 @@ public class CalendarWidget extends JPanel {
 		gbc_button.gridx = 1;
 		gbc_button.gridy = 0;
 		add(button, gbc_button);
-		this.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				textField.requestFocusInWindow();
-				textField.selectAll();
-				System.out.println("Calendar widget focus gained");
-			}
-		});
-		this.addComponentListener(new ComponentListener() {
+		this.addFocusListener(new FocusListener() {
 
 			@Override
-			public void componentShown(ComponentEvent arg0) {
-				System.out.println("widget shown");
-			}
-
-			@Override
-			public void componentResized(ComponentEvent arg0) {
-				System.out.println("widget resized");
-			}
-
-			@Override
-			public void componentMoved(ComponentEvent arg0) {
-				System.out.println("widget moved");
+			public void focusGained(FocusEvent arg0) {
+				System.out.println("Focus gained");
 				textField.requestFocusInWindow();
 			}
 
 			@Override
-			public void componentHidden(ComponentEvent arg0) {
-				System.out.println("widget hidden");
+			public void focusLost(FocusEvent arg0) {
+				System.out.println("focus lost");
 			}
+			
 		});
-
 	}
 
+	/**
+	 * Make change tests to see if anything has changed and updates the date.
+	 */
+	private void makeChange() {
+		checkDate();
+	}
+	
 	private void popupCalendar() {
 		CalendarPopup popup = new CalendarPopup();
 		popup.setDate(date);
@@ -173,7 +162,7 @@ public class CalendarWidget extends JPanel {
 			DateMidnight date = popup.getDate();
 			setDate(date);
 			firePropertyChange("date", dt, date);
-			System.out.println("popuyp" + date);
+			System.out.println("popup" + date);
 		}
 	}
 
@@ -207,10 +196,10 @@ public class CalendarWidget extends JPanel {
 
 	private boolean checkDate() {
 		String txt = textField.getText();
-		System.out.println("checkdate:" + txt);
 		DateMidnight dt = null;
 		if (txt.isEmpty() && date != null) {
 			firePropertyChange("date", date, date = null);
+			System.out.println("checkDate-Date set to null");
 			return true;
 		}
 		for (DateTimeFormatter dtf : formatters) {
@@ -219,6 +208,7 @@ public class CalendarWidget extends JPanel {
 				dt = dtf.parseDateTime(txt).toDateMidnight();
 				date = dt;
 				firePropertyChange("date", dto, dt);
+				System.out.println("checkDate-Date set to "+dt);
 				return true;
 			} catch (IllegalArgumentException e) {
 				// ignore
@@ -245,11 +235,21 @@ public class CalendarWidget extends JPanel {
 		} else {
 			textField.setText("");
 		}
-	}
-
-	public void selectAll() {
-		textField.selectAll();
 		textField.grabFocus();
+		textField.setFocusable(true);
+		textField.grabFocus();
+		System.out.println("setDate"  + textField.hasFocus()+" "+this.hasFocus());
+	}
+	
+	public void selectAll() {
+		System.out.println("SelectAll");
+		textField.selectAll();
+		System.out.println("selectAll "+textField.hasFocus());
 	}
 
+	public JTextField getTextField() {
+		return textField;
+	}
+
+	
 }

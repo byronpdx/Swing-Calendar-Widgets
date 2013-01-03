@@ -1,9 +1,12 @@
-/**
- * 
+/*
+ * Copyright (c) 2009-2013 TriMet
+ *  
+ * Last modified on Jan 2, 2013 by palmerb
  */
 package com.byronpdx.swing;
 
 import java.awt.Component;
+import java.beans.PropertyChangeListener;
 import java.util.EventObject;
 
 import javax.swing.AbstractCellEditor;
@@ -27,14 +30,16 @@ public class CalendarCellEditor extends AbstractCellEditor implements
 	 */
 	public CalendarCellEditor() {
 		widget = new CalendarWidget();
+		widget.getTextField().requestFocusInWindow();
 	}
 
 	@Override
 	public boolean isCellEditable(EventObject e) {
-		widget.grabFocus();
 		widget.selectAll();
 		return true;
 	}
+	
+	
 
 	/*
 	 * (non-Javadoc)
@@ -52,7 +57,31 @@ public class CalendarCellEditor extends AbstractCellEditor implements
 			boolean isSelected, int row, int col) {
 		DateMidnight date = (DateMidnight) value;
 		widget.setDate(date);
+		widget.requestFocusInWindow();
 		return widget;
 	}
+	
+	/**
+	 * Adds the date listener.
+	 * 
+	 * @param dateListener
+	 *            the date listener
+	 */
+	public void addDateListener(PropertyChangeListener dateListener) {
+		widget.addPropertyChangeListener("date", dateListener);
+	}
 
+	/**
+	 * Removes the date listener.
+	 * 
+	 * @param dateListener
+	 *            the date listener
+	 */
+	public void removeDateListener(PropertyChangeListener dateListener) {
+		widget.removePropertyChangeListener(dateListener);
+	}
+	
+	
+	
+	
 }

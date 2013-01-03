@@ -1,5 +1,8 @@
 package com.byronpdx.swing;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
@@ -15,15 +18,25 @@ public class TestTableModel extends AbstractTableModel {
 			new Person("Nettle", new DateMidnight(1977, 7, 11), 33) };
 	private final JTable table;
 
-	public TestTableModel(JTable table) {
+	public TestTableModel(final JTable table) {
 		this.table = table;
 		table.setModel(this);
+		table.setSurrendersFocusOnKeystroke(true);
 		// setup columns
 		TableColumnModel colModel = table.getColumnModel();
 		TableColumn col = colModel.getColumn(1);
 		col.setCellRenderer(new CalendarCellRenderer("MM/dd/yyyy"));
 		CalendarCellEditor editor = new CalendarCellEditor();
 		col.setCellEditor(editor);
+		editor.addDateListener(new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if(table.getEditingRow()<0) return;
+				table.getModel().setValueAt(evt.getNewValue(), table.getEditingRow(), table.getEditingColumn());
+			}
+			
+		});
 	}
 
 	@Override
