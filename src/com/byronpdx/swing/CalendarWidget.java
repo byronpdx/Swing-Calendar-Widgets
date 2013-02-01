@@ -13,7 +13,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
@@ -95,21 +94,21 @@ public class CalendarWidget extends JPanel {
 			
 		});
 
-		textField.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				super.focusGained(e);
-				textField.selectAll();
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (checkDate() && date != null) {
-					textField.setText(date.toString(formatters.get(formatters
-							.size() - 1)));
-				}
-			}
-		});
+//		textField.addFocusListener(new FocusAdapter() {
+//			@Override
+//			public void focusGained(FocusEvent e) {
+//				super.focusGained(e);
+//				textField.selectAll();
+//			}
+//
+//			@Override
+//			public void focusLost(FocusEvent e) {
+//				if (checkDate() && date != null) {
+//					textField.setText(date.toString(formatters.get(formatters
+//							.size() - 1)));
+//				}
+//			}
+//		});
 
 		JButton button = new JButton("");
 		button.addActionListener(new ActionListener() {
@@ -133,13 +132,11 @@ public class CalendarWidget extends JPanel {
 
 			@Override
 			public void focusGained(FocusEvent arg0) {
-				System.out.println("Focus gained");
 				textField.requestFocusInWindow();
 			}
 
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				System.out.println("focus lost");
 			}
 			
 		});
