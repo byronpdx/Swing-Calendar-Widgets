@@ -14,6 +14,8 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
 import org.joda.time.DateMidnight;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author byron
@@ -21,7 +23,8 @@ import org.joda.time.DateMidnight;
  */
 public class CalendarCellEditor extends AbstractCellEditor implements
 		TableCellEditor {
-
+	private static Logger log = LoggerFactory
+			.getLogger(CalendarCellEditor.class);
 	private static final long serialVersionUID = -4011447494671904444L;
 	private CalendarWidget widget;
 
@@ -69,6 +72,7 @@ public class CalendarCellEditor extends AbstractCellEditor implements
 	 */
 	public void addDateListener(PropertyChangeListener dateListener) {
 		widget.addPropertyChangeListener("date", dateListener);
+		log.debug("adding listener={}", dateListener);
 	}
 
 	/**
@@ -79,9 +83,7 @@ public class CalendarCellEditor extends AbstractCellEditor implements
 	 */
 	public void removeDateListener(PropertyChangeListener dateListener) {
 		widget.removePropertyChangeListener(dateListener);
+		log.debug("remove listener={}", dateListener);
 	}
-	
-	
-	
-	
+		
 }

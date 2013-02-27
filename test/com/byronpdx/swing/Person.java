@@ -48,4 +48,14 @@ public class Person {
 		this.age = age;
 	}
 
+	@Override
+	public String toString() {
+		StringBuffer buff = new StringBuffer();
+		buff.append("Person:{");
+		buff.append(" name:").append(name);
+		buff.append(" dob:").append(dob);
+		buff.append(" age:").append(age);
+		buff.append("}");
+		return buff.toString();
+	}
 }

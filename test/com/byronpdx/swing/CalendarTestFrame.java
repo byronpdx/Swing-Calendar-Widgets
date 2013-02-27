@@ -32,6 +32,7 @@ public class CalendarTestFrame extends JFrame {
 	private JTextField txtCalefld;
 	private JScrollPane scrollPane;
 	private JTable table;
+	private final JButton btnPrint = new JButton("Print");
 
 	/**
 	 * Launch the application.
@@ -145,6 +146,17 @@ public class CalendarTestFrame extends JFrame {
 		gbc_txtCalefld.gridy = 3;
 		contentPane.add(txtCalefld, gbc_txtCalefld);
 		txtCalefld.setColumns(10);
+		{
+			btnPrint.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					Person[] people = ((TestTableModel)table.getModel()).getPeople();
+					for(Person p:people) {
+						System.out.println(p);
+					}
+				}
+			});
+			contentPane.add(btnPrint, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 5), 0, 0));
+		}
 
 		scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2009-2013 TriMet
  *  
- * Last modified on Jan 2, 2013 by palmerb
+ * Last modified on Feb 12, 2013 by palmerb
  */
 package com.byronpdx.swing;
 
@@ -93,22 +93,6 @@ public class CalendarWidget extends JPanel {
 			}
 			
 		});
-
-//		textField.addFocusListener(new FocusAdapter() {
-//			@Override
-//			public void focusGained(FocusEvent e) {
-//				super.focusGained(e);
-//				textField.selectAll();
-//			}
-//
-//			@Override
-//			public void focusLost(FocusEvent e) {
-//				if (checkDate() && date != null) {
-//					textField.setText(date.toString(formatters.get(formatters
-//							.size() - 1)));
-//				}
-//			}
-//		});
 
 		JButton button = new JButton("");
 		button.addActionListener(new ActionListener() {
@@ -224,6 +208,12 @@ public class CalendarWidget extends JPanel {
 		return date;
 	}
 
+	/**
+	 * Sets the date.
+	 * 
+	 * @param date
+	 *            the new date
+	 */
 	public void setDate(DateMidnight date) {
 		this.date = date;
 		if (date != null) {
@@ -235,7 +225,6 @@ public class CalendarWidget extends JPanel {
 		textField.grabFocus();
 		textField.setFocusable(true);
 		textField.grabFocus();
-		System.out.println("setDate"  + textField.hasFocus()+" "+this.hasFocus());
 	}
 	
 	public void selectAll() {
@@ -247,6 +236,5 @@ public class CalendarWidget extends JPanel {
 	public JTextField getTextField() {
 		return textField;
 	}
-
 	
 }

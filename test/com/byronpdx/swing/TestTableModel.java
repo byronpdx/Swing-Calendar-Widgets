@@ -2,11 +2,14 @@ package com.byronpdx.swing;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Comparator;
 
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import org.joda.time.DateMidnight;
 
@@ -15,8 +18,10 @@ public class TestTableModel extends AbstractTableModel {
 	private Person[] people = {
 			new Person("Byron", new DateMidnight(1949, 8, 27), 62),
 			new Person("Helen", new DateMidnight(1946, 5, 16), 65),
-			new Person("Nettle", new DateMidnight(1977, 7, 11), 33) };
+			new Person("Nettle", new DateMidnight(1977, 7, 11), 33),
+			new Person("Bruce", new DateMidnight(1952, 3, 23), 59) };
 	private final JTable table;
+	private TableRowSorter<TableModel> sorter;
 
 	public TestTableModel(final JTable table) {
 		this.table = table;
@@ -24,7 +29,9 @@ public class TestTableModel extends AbstractTableModel {
 		table.setSurrendersFocusOnKeystroke(true);
 		// setup columns
 		TableColumnModel colModel = table.getColumnModel();
+		colModel.getColumn(0).setHeaderValue("Name");
 		TableColumn col = colModel.getColumn(1);
+		col.setHeaderValue("DOB");
 		col.setCellRenderer(new CalendarCellRenderer("MM/dd/yyyy"));
 		CalendarCellEditor editor = new CalendarCellEditor();
 		col.setCellEditor(editor);
@@ -32,11 +39,34 @@ public class TestTableModel extends AbstractTableModel {
 
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if(table.getEditingRow()<0) return;
-				table.getModel().setValueAt(evt.getNewValue(), table.getEditingRow(), table.getEditingColumn());
+				if (table.getEditingRow() < 0)
+					return;
+				table.getModel().setValueAt(evt.getNewValue(),
+						sorter.convertRowIndexToModel(table.getEditingRow()),
+						table.getEditingColumn());
 			}
-			
+
 		});
+		colModel.getColumn(2).setHeaderValue("Age");
+		sorter = new TableRowSorter<TableModel>(this);
+		table.setRowSorter(sorter);
+		sorter.setSortsOnUpdates(false);
+		sorter.setComparator(1, new Comparator<DateMidnight>() {
+
+			@Override
+			public int compare(DateMidnight o1, DateMidnight o2) {
+				if (o1 == null)
+					return -1;
+				if (o2 == null)
+					return 1;
+				return o2.compareTo(o1);
+			}
+		});
+		sorter.toggleSortOrder(1);
+	}
+
+	public Person[] getPeople() {
+		return people;
 	}
 
 	@Override
