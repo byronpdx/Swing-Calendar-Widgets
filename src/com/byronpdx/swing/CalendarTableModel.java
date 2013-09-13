@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import org.joda.time.DateMidnight;
+import org.joda.time.LocalDate;
 
 public class CalendarTableModel extends AbstractTableModel {
 
@@ -34,14 +34,14 @@ public class CalendarTableModel extends AbstractTableModel {
 
 	private int year;
 	private int month;
-	private DateMidnight date;
-	private DateMidnight[][] days = new DateMidnight[6][7];
+	private LocalDate date;
+	private LocalDate[][] days = new LocalDate[6][7];
 	private int rows = 6;
 	private final JTable table;
 
 	public CalendarTableModel(JTable table) {
 		this.table = table;
-		setDate(new DateMidnight());
+		setDate(new LocalDate());
 		table.setModel(this);
 		setupColumns();
 	}
@@ -117,19 +117,19 @@ public class CalendarTableModel extends AbstractTableModel {
 		this.year = year;
 	}
 
-	public DateMidnight getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(DateMidnight date) {
-		this.date = date;
-		year = date.getYear();
-		month = date.getMonthOfYear();
+	public void setDate(LocalDate date2) {
+		this.date = date2;
+		year = date2.getYear();
+		month = date2.getMonthOfYear();
 		setupCalendar();
 	}
 
 	private void setupCalendar() {
-		DateMidnight dt = date.withDayOfMonth(1);
+		LocalDate dt = date.withDayOfMonth(1);
 		dt = dt.minusDays(dt.getDayOfWeek());
 		for (int row = 0; row < 6; row++) {
 			for (int col = 0; col < 7; col++) {
@@ -144,7 +144,7 @@ public class CalendarTableModel extends AbstractTableModel {
 		fireTableDataChanged();
 	}
 
-	public DateMidnight getDateAt(int row, int col) {
+	public LocalDate getDateAt(int row, int col) {
 		return days[row][col];
 	}
 

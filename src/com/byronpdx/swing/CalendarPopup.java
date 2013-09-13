@@ -12,13 +12,15 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import org.joda.time.DateMidnight;
+import org.joda.time.LocalDate;
 
 public class CalendarPopup extends JDialog {
 
+	// serialVersionUID
+	private static final long serialVersionUID = -7008841514983228970L;
 	private final JPanel contentPanel = new JPanel();
 	private final CalendarPanel calendarPanel = new CalendarPanel();
-	private DateMidnight date;
+	private LocalDate date;
 	protected boolean valid;
 	private JButton okButton;
 
@@ -78,12 +80,12 @@ public class CalendarPopup extends JDialog {
 		valid = false;
 	}
 
-	public void setDate(DateMidnight date) {
-		this.date = date;
-		calendarPanel.setDate(date);
+	public void setDate(LocalDate date2) {
+		this.date = date2;
+		calendarPanel.setDate(date2);
 	}
 
-	public DateMidnight getDate() {
+	public LocalDate getDate() {
 		return calendarPanel.getDate();
 	}
 

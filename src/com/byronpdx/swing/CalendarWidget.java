@@ -26,7 +26,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import org.joda.time.DateMidnight;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -39,7 +39,7 @@ import org.joda.time.format.DateTimeFormatter;
 public class CalendarWidget extends JPanel {
 	private static final long serialVersionUID = -3552440588908953823L;
 	private JTextField textField;
-	private DateMidnight date;
+	private LocalDate date;
 	// formatters
 	private ArrayList<DateTimeFormatter> formatters = new ArrayList<DateTimeFormatter>();
 	private String[] fmtStrings;
@@ -139,8 +139,8 @@ public class CalendarWidget extends JPanel {
 		popup.setLocation(this.getLocationOnScreen());
 		popup.setVisible(true);
 		if (popup.isDateValid()) {
-			DateMidnight dt = this.date;
-			DateMidnight date = popup.getDate();
+			LocalDate dt = this.date;
+			LocalDate date = popup.getDate();
 			setDate(date);
 			firePropertyChange("date", dt, date);
 			System.out.println("popup" + date);
@@ -166,7 +166,7 @@ public class CalendarWidget extends JPanel {
 	 * @param fmtStrings
 	 */
 	private void setupFormatters(String[] fmtStrings) {
-		DateMidnight dt = new DateMidnight();
+		LocalDate dt = new LocalDate();
 		formatters.clear();
 		for (String fmt : fmtStrings) {
 			DateTimeFormatter dtf = DateTimeFormat.forPattern(fmt)
@@ -177,7 +177,7 @@ public class CalendarWidget extends JPanel {
 
 	private boolean checkDate() {
 		String txt = textField.getText();
-		DateMidnight dt = null;
+		LocalDate dt = null;
 		if (txt.isEmpty() && date != null) {
 			firePropertyChange("date", date, date = null);
 			System.out.println("checkDate-Date set to null");
@@ -185,8 +185,8 @@ public class CalendarWidget extends JPanel {
 		}
 		for (DateTimeFormatter dtf : formatters) {
 			try {
-				DateMidnight dto = date;
-				dt = dtf.parseDateTime(txt).toDateMidnight();
+				LocalDate dto = date;
+				dt = dtf.parseDateTime(txt).toLocalDate();
 				date = dt;
 				firePropertyChange("date", dto, dt);
 				System.out.println("checkDate-Date set to "+dt);
@@ -203,7 +203,7 @@ public class CalendarWidget extends JPanel {
 	 * 
 	 * @return the date
 	 */
-	public DateMidnight getDate() {
+	public LocalDate getDate() {
 		checkDate();
 		return date;
 	}
@@ -211,14 +211,14 @@ public class CalendarWidget extends JPanel {
 	/**
 	 * Sets the date.
 	 * 
-	 * @param date
+	 * @param localDate
 	 *            the new date
 	 */
-	public void setDate(DateMidnight date) {
-		this.date = date;
-		if (date != null) {
+	public void setDate(LocalDate localDate) {
+		this.date = localDate;
+		if (localDate != null) {
 			textField
-					.setText(date.toString(formatters.get(formatters.size() - 1)));
+					.setText(localDate.toString(formatters.get(formatters.size() - 1)));
 		} else {
 			textField.setText("");
 		}

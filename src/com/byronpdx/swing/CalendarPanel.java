@@ -20,7 +20,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.joda.time.DateMidnight;
+import org.joda.time.LocalDate;
 
 public class CalendarPanel extends JPanel {
 	public enum MONTH {
@@ -30,7 +30,7 @@ public class CalendarPanel extends JPanel {
 	private CalendarTableModel model;
 	private static final long serialVersionUID = 978379016168308851L;
 	private JTable table;
-	private DateMidnight date;
+	private LocalDate date;
 	private JSpinner spinYear;
 	private JComboBox cmbMonth;
 
@@ -106,7 +106,7 @@ public class CalendarPanel extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				int col = table.getSelectedColumn();
 				int row = table.getSelectedRow();
-				DateMidnight dt = (DateMidnight) model.getDateAt(row, col);
+				LocalDate dt = (LocalDate) model.getDateAt(row, col);
 				firePropertyChange("date", date, date = dt);
 				model.setDate(date);
 				model.fireTableDataChanged();
@@ -121,20 +121,20 @@ public class CalendarPanel extends JPanel {
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		add(scrollPane, BorderLayout.CENTER);
 		scrollPane.setViewportView(table);
-		setDate(new DateMidnight());
+		setDate(new LocalDate());
 		this.doLayout();
 
 	}
 
-	public DateMidnight getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(DateMidnight date) {
-		if (date != null) {
-			this.date = date;
+	public void setDate(LocalDate date2) {
+		if (date2 != null) {
+			this.date = date2;
 		} else {
-			this.date = new DateMidnight();
+			this.date = new LocalDate();
 		}
 		model.setDate(this.date);
 		spinYear.setValue(this.date.getYear());

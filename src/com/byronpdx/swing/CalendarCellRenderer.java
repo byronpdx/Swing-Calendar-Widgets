@@ -2,7 +2,7 @@ package com.byronpdx.swing;
 
 import javax.swing.table.DefaultTableCellRenderer;
 
-import org.joda.time.DateMidnight;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -26,7 +26,7 @@ public class CalendarCellRenderer extends DefaultTableCellRenderer {
 
 	@Override
 	protected void setValue(Object value) {
-		setText((value == null) ? "" : formatter.print((DateMidnight) value));
+		setText((value == null) ? "" : formatter.print((LocalDate) value));
 	}
 
 	public String getFormat() {

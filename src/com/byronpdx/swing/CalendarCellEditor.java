@@ -13,7 +13,7 @@ import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
-import org.joda.time.DateMidnight;
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +58,7 @@ public class CalendarCellEditor extends AbstractCellEditor implements
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value,
 			boolean isSelected, int row, int col) {
-		DateMidnight date = (DateMidnight) value;
+		LocalDate date = (LocalDate) value;
 		widget.setDate(date);
 		widget.requestFocusInWindow();
 		return widget;
