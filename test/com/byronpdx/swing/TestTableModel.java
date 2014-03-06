@@ -11,20 +11,18 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import org.joda.time.DateMidnight;
+import org.joda.time.LocalDate;
 
 public class TestTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = -807256944481978823L;
 	private Person[] people = {
-			new Person("Byron", new DateMidnight(1949, 8, 27), 62),
-			new Person("Helen", new DateMidnight(1946, 5, 16), 65),
-			new Person("Nettle", new DateMidnight(1977, 7, 11), 33),
-			new Person("Bruce", new DateMidnight(1952, 3, 23), 59) };
-	private final JTable table;
+			new Person("Byron", new LocalDate(1949, 8, 27), 62),
+			new Person("Helen", new LocalDate(1946, 5, 16), 65),
+			new Person("Nettle", new LocalDate(1977, 7, 11), 33),
+			new Person("Bruce", new LocalDate(1952, 3, 23), 59) };
 	private TableRowSorter<TableModel> sorter;
 
 	public TestTableModel(final JTable table) {
-		this.table = table;
 		table.setModel(this);
 		table.setSurrendersFocusOnKeystroke(true);
 		// setup columns
@@ -51,10 +49,10 @@ public class TestTableModel extends AbstractTableModel {
 		sorter = new TableRowSorter<TableModel>(this);
 		table.setRowSorter(sorter);
 		sorter.setSortsOnUpdates(false);
-		sorter.setComparator(1, new Comparator<DateMidnight>() {
+		sorter.setComparator(1, new Comparator<LocalDate>() {
 
 			@Override
-			public int compare(DateMidnight o1, DateMidnight o2) {
+			public int compare(LocalDate o1, LocalDate o2) {
 				if (o1 == null)
 					return -1;
 				if (o2 == null)
@@ -102,7 +100,7 @@ public class TestTableModel extends AbstractTableModel {
 			break;
 		case 1:
 			System.out.println("Setting " + aValue);
-			person.setDob((DateMidnight) aValue);
+			person.setDob((LocalDate) aValue);
 			break;
 		case 2:
 			person.setAge(Integer.parseInt((String) aValue));

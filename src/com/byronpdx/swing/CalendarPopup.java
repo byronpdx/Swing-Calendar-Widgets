@@ -20,7 +20,7 @@ public class CalendarPopup extends JDialog {
 	private static final long serialVersionUID = -7008841514983228970L;
 	private final JPanel contentPanel = new JPanel();
 	private final CalendarPanel calendarPanel = new CalendarPanel();
-	private LocalDate date;
+//	private LocalDate date;
 	protected boolean valid;
 	private JButton okButton;
 
@@ -81,7 +81,6 @@ public class CalendarPopup extends JDialog {
 	}
 
 	public void setDate(LocalDate date2) {
-		this.date = date2;
 		calendarPanel.setDate(date2);
 	}
 

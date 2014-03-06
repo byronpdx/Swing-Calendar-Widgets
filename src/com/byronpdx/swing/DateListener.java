@@ -1,7 +1,7 @@
 package com.byronpdx.swing;
 
-import org.joda.time.DateMidnight;
+import org.joda.time.LocalDate;
 
 public interface DateListener {
-	public void dateChanged(DateMidnight date);
+	public void dateChanged(LocalDate date);
 }

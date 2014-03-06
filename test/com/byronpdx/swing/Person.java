@@ -1,16 +1,16 @@
 package com.byronpdx.swing;
 
-import org.joda.time.DateMidnight;
+import org.joda.time.LocalDate;
 
 public class Person {
 	private String name;
-	private DateMidnight dob;
+	private LocalDate dob;
 	private int age;
 
-	public Person(String name, DateMidnight dob, int age) {
+	public Person(String name, LocalDate localDate, int age) {
 		super();
 		this.name = name;
-		this.dob = dob;
+		this.dob = localDate;
 		this.age = age;
 	}
 
@@ -28,11 +28,11 @@ public class Person {
 		this.name = name;
 	}
 
-	public DateMidnight getDob() {
+	public LocalDate getDob() {
 		return dob;
 	}
 
-	public void setDob(DateMidnight dob) {
+	public void setDob(LocalDate dob) {
 		System.out.println(this.dob != null ? this.dob.toString("MM/dd/yyyy")
 				: "null" + "->" + dob != null ? dob.toString("MM/dd/yyyy")
 						: "null");
